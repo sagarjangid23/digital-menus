@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-50">
+        <div class="bg-gray-800">
+            <div class="flex flex-wrap items-center justify-between text-teal-600 py-1.5 sm:py-4 font-extrabold mx-2 sm:mx-6">
+                {% if not request.user.is_anonymous %}
+                    <div class="text-xl sm:text-3xl"><a href='/'>Digital Menu</a></div>
+                    <div class="flex items-center justify-between">
+                        <p class="sm:text-sm font-base mr-2 sm:mr-8">Welcome {{user_name|capfirst}}</p>
+                        <a class="text-lg" href='{% url 'account:logout' %}'>Logout</a>
+                    </div>
+                {% else %}
+                    <div class="text-xl sm:text-3xl"><a href='/'>Digital Menu</a></div>
+                {% endif %}
+            </div>
+        </div>
+        {% block body %}{% endblock %}
+    </body>
+</html>

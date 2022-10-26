@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Item details{% endblock title %}
+
+{% block body %}
+<div class="bg-gray-700">
+    <div class="flex flex-wrap items-center justify-between py-2 font-bold mx-6">
+        <p class="text-xl text-gray-100">Menu Details</p>
+        <a class="px-2 bg-indigo-400 rounded-lg text-gray-800" href="/">Back To Dashboard</a>
+    </div>
+</div>
+
+<div class="md:w-1/2 m-6">
+    {% if menuitem %}
+        {% if menuitem.image %}
+            <div class="flex text-gray-200">
+                <a href="{{menuitem.image.url}}">
+                    <img class="h-32 w-32" src="{{menuitem.image.url}}"></img>
+                </a>
+            </div>
+        {% endif %}
+        <div class="text-gray-700">
+            <div class="my-4">
+                <div class="font-bold">Name</div>
+                <div class="text-xl px-2 border-b bg-gray-200 rounded">{{menuitem.name|capfirst}}</div>
+            </div>
+            <div class="my-4">
+                <div class="font-bold">Stock</div>
+                <div class="text-xl px-2 border-b bg-gray-200 rounded">{{menuitem.stock}}</div>
+            </div>
+            <div class="my-4">
+                <div class="font-bold">Price</div>
+                <div class="text-xl px-2 border-b bg-gray-200 rounded">{{menuitem.price}}</div>
+            </div>
+            <div class="my-4">
+                <div class="font-bold">Available</div>
+                <div class="text-xl px-2 border-b bg-gray-200 rounded">{{menuitem.available}}</div>
+            </div>
+            <div class="my-4">
+                <div class="font-bold">Description</div>
+                <div class="text-xl px-2 border-b bg-gray-200 rounded">{{menuitem.description}}</div>
+            </div>
+        </div>
+        <a class="px-3 py-1.5 bg-green-400 rounded-lg" href="{% url 'item:item_update' menuitem.id %}">Update</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+

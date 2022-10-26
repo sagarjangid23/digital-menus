@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Create menu item{% endblock title %}
+
+{% block body %}
+<div class="bg-gray-700">
+    <div class="flex flex-wrap items-center justify-between py-2 font-bold mx-6">
+        <p class="text-xl text-gray-100">Create menu item</p>
+        <a class="px-2 bg-indigo-400 rounded-lg text-gray-800" href="/">Back To Dashboard</a>
+    </div>
+</div>
+
+<div class="mx-10 px-4 mb-12">
+    <div class="flex items-center">
+        <form method="post" novalidate class="flex flex-col", enctype='multipart/form-data'>
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class='text-base text-red-700'>{{error}}</p>
+                {% endfor %}
+            {% endif %}
+
+            {% for item in form %}
+                <div class="">
+                    <small class="font-bold text-gray-600">{{item.label_tag}}</small>
+                    <small class="text-lg">{{item}}</small>
+                    <small class="text-base text-red-700">{{item.errors|striptags}}</small>
+                </div>
+            {% endfor %}
+            <input type="submit" value="Create Item" class="bg-black text-white font-bold text-lg hover:bg-gray-700 rounded p-2 mt-8">
+        </form>
+    </div>
+</div>
+{% endblock %}

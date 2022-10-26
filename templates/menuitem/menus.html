@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Menu list{% endblock title %}
+
+{% block body %}
+    <div class="bg-gray-700 px-2 sm:px-8 py-2">
+        <p class="sm:text-xl text-gray-100"><b class="mr-2 sm:mr-4">Restaurant Name:</b>{{restaurant_name}}</p>
+    </div>
+    {% if menuitems %}
+        <div class="grid grid-cols-4 gap-1 bg-gray-200 font-bold px-2 sm:px-8 py-2">
+            <div>
+                Image
+            </div>
+            <div>
+                Item Name
+            </div>
+            <div>
+                Price
+            </div>
+            <div>
+                Description
+            </div>
+        </div>
+        <hr>
+        {% for menuitem in menuitems %}
+            <div class="grid grid-cols-4 gap-1 px-8 py-1 sm:py-2 mt-1 sm:mt-2">
+                <div>
+                    {% if menuitem.image %}
+                        <a class="mb-4" target="blank" href="{{menuitem.image.url}}">
+                            <img class="h-18 w-18 sm:h-28 sm:w-28" src="{{menuitem.image.url}}" alt="item image"></img>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="sm:text-lg">
+                    {{menuitem.name|capfirst}}
+                </div>
+                <div class="sm:text-lg">
+                    {{menuitem.price}}
+                </div>
+                <div>
+                    {{menuitem.description|capfirst}}
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <div class='p-6 m-6 sm:p-16 sm:m-16'>
+            <p class="text-center sm:text-xl">Menus not found.</p>
+        </div>
+    {% endif %}
+{% endblock %}

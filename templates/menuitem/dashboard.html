@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load qr_code %}
+
+{% block title %}Digital Menu Dashboard{% endblock title %}
+
+{% block body %}
+    {% if owner %}
+        <div class="bg-gray-700">
+            <div class="flex flex-wrap items-center justify-between py-2 font-bold mx-6">
+                <p class="text-xl text-gray-100">Menu List</p>
+                <a class="px-2 bg-indigo-400 rounded-lg text-gray-800" href="{% url 'item:item_create' %}">Add Item</a>
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ messages.tags }} text-center text-xl text-green-600" role="success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if menuitems %}
+            <div class="text-gray-700 mb-6">
+                {% for menuitem in menuitems %}
+                    <div class="bg-gray-500 m-6 rounded">
+                        <div class="text-gray-200 items-center py-2 mx-6 md:flex md:flex-wrap md:justify-between">
+                            {% if menuitem.image %}
+                                <a class="mb-4" target="blank" href="{{menuitem.image.url}}">
+                                    <img class="h-18 w-18 sm:h-28 sm:w-28" src="{{menuitem.image.url}}" alt="item image"></img>
+                                </a>
+                            {% endif %}
+                            <div class="font-extrabold text-md">{{menuitem.name|capfirst}} ({{menuitem.stock}} in stocks)</div>
+                            <div class="text-gray-600 font-bold mt-1">
+                                <a class="px-3 py-1 bg-green-400 rounded-lg" href="{% url 'item:item_detail' menuitem.id %}">Detail</a>
+                                <a class="px-3 py-1 bg-green-400 rounded-lg" href="{% url 'item:item_update' menuitem.id %}">Update</a>
+                                <a class="px-2 py-1 bg-red-400 rounded-lg" href="{% url 'item:item_delete' menuitem.id %}">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class='p-16 m-16 text-lg'>
+                <p class="text-center">Menus not found.</p>
+            </div>
+        {% endif %}
+        
+        {# Own QR code #}
+        <div class="bg-gray-700">
+            <div class="items-center text-gray-700 py-2 font-bold text-xl mx-6">
+                <p class="text-xl text-gray-100">QR CODE</p>
+            </div>
+        </div>
+        <div class="text-gray-700 ">
+            <div class="flex flex-wrap">
+                {% if restaurant %}
+                    <div class="bg-gray-400 m-8 rounded">
+                        <div class="m-4 text-blue-800 bg-gray-100 rounded">
+                            {{restaurant|safe}}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class='p-16 m-16 text-lg'>
+                        <p>QR code not generated.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    
+    {% else %}
+        <div class="bg-gray-700">
+            <div class="flex flex-wrap items-center justify-between py-2 font-bold mx-6">
+                <p class="text-xl text-gray-100">Restaurant List</p>
+                {% if not user_name %}
+                    <a class="px-4 py-1 text-teal-600 rounded-lg bg-gray-800" href="{% url 'account:login' %}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ messages.tags }} text-center text-xl text-green-600" role="success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="text-gray-700 ">
+            {% if restaurants %}
+                <div class="flex flex-wrap">
+                    {% for name,img in restaurants.items %}
+                        <div class="bg-gray-400 m-8 rounded">
+                            <div class="m-4 text-blue-800 bg-gray-100 rounded">
+                                {{img|safe}}
+                            </div>
+                            <div class="mb-1 font-bold mx-4">
+                                <p class="text-gray-800">
+                                    {{name}}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+            {% else %}
+                <div class='p-16 m-16'>
+                    <p class="text-center text-xl">Restaurants not found.</p>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+
